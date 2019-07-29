@@ -1,0 +1,13 @@
+export const CANVAS_WIDTH = 500;
+export const CANVAS_HEIGHT = 650;
+export const MIN_PIPE_GAP = 150;
+export const MAX_PIPE_GAP = 200;
+export const MIN_PIPE_HEIGHT = 100;
+export const MAX_PIPE_HEIGHT = 300;
+export const PIPE_WIDTH = 100;
+export const MaxPipeOffset = 400;
+export const MinPipeOffset = 300;
+export const PipeSpeed = 2;
+export const BIRDSIZE = { Width: 70, Hieght: 50 };
+export const BIRDANIMATIONFRAME = [200, 272, 344, 416];
+export const FLOOROFFSET = 70;
