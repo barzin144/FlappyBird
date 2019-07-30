@@ -6,22 +6,34 @@ import Floor from './game/floor';
 import P5 from 'p5';
 import Images from './assets/sprite.png';
 import BackgroundImage from './assets/background.png';
+import font from './assets/FlappyBirdy.ttf';
 
 const sketch = p5 => {
-    let gameStart = false;
-    let gameOver = false;
-    let spriteImage = p5.loadImage(Images);
     let background = p5.loadImage(BackgroundImage);
-    let bird = new Bird(p5, spriteImage);
-    let pipe = new Pipe(p5, spriteImage);
-    let floor = new Floor(p5, spriteImage);
-    let score = 0;
+    let spriteImage = p5.loadImage(Images);
+    let birdyFont = p5.loadFont(font);
+    let gameStart;
+    let gameOver;
+    let bird;
+    let pipe;
+    let floor;
+    let score;
 
-    p5.setup = () => {
-        p5.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+    const resetGame = () => {
+        gameStart = false;
+        gameOver = false;
+        bird = new Bird(p5, spriteImage);
+        pipe = new Pipe(p5, spriteImage);
+        floor = new Floor(p5, spriteImage);
+        score = 0;
         pipe.generateFirst();
         bird.draw();
         floor.draw();
+    }
+
+    p5.setup = () => {
+        p5.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+        resetGame();
     }
 
     p5.draw = () => {
@@ -52,9 +64,22 @@ const sketch = p5 => {
             }
         }
 
+        p5.textFont(birdyFont);
         p5.textSize(50);
-        p5.text(score, CANVAS_WIDTH / 2 - 10, 100 );
         p5.fill('white');
+        p5.text(score, CANVAS_WIDTH / 2 - 10, 100);
+
+        if (gameStart === false) {
+            p5.textSize(40);
+            p5.strokeWeight(0);
+            p5.fill('Black');
+            p5.text('Press Space to fly', 65, 640);
+        }
+        if (gameOver === true) {
+            p5.textSize(40);
+            p5.fill('Black');
+            p5.text('Press Space to reset', 35, 640);
+        }
 
     }
 
@@ -64,6 +89,9 @@ const sketch = p5 => {
                 bird.jump();
             if (gameStart === false)
                 gameStart = true;
+            if (gameOver) {
+                resetGame();
+            }
         }
     }
 }
