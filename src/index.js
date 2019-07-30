@@ -1,8 +1,10 @@
 import './main.scss';
-import { CANVAS_HEIGHT, CANVAS_WIDTH, BIRDSIZE } from './game/constants';
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from './game/constants';
 import Pipe from './game/pipe';
 import Bird from './game/bird';
 import Floor from './game/floor';
+import Text from './game/gameText';
+import Button from './game/gameButton';
 import P5 from 'p5';
 import Images from './assets/sprite.png';
 import BackgroundImage from './assets/background.png';
@@ -17,6 +19,8 @@ const sketch = p5 => {
     let bird;
     let pipe;
     let floor;
+    let gameButton;
+    let gameText;
     let score;
 
     const resetGame = () => {
@@ -25,14 +29,33 @@ const sketch = p5 => {
         bird = new Bird(p5, spriteImage);
         pipe = new Pipe(p5, spriteImage);
         floor = new Floor(p5, spriteImage);
+        gameText = new Text(p5, birdyFont);
+        gameButton = new Button(p5, gameText, spriteImage);
         score = 0;
         pipe.generateFirst();
         bird.draw();
         floor.draw();
     }
 
+    const canvasClick = () => {
+        if (p5.mouseButton === 'left') {
+            if (gameOver === false)
+                bird.jump();
+            if (gameStart === false)
+                gameStart = true;
+            if (gameOver &&
+                p5.mouseX > CANVAS_WIDTH / 2 - 85 &&
+                p5.mouseX < CANVAS_WIDTH / 2 + 75 &&
+                p5.mouseY > CANVAS_HEIGHT / 2 + 100 &&
+                p5.mouseY < CANVAS_HEIGHT / 2 + 160
+            )
+                resetGame();
+        }
+    }
+
     p5.setup = () => {
-        p5.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+        var canvas = p5.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+        canvas.mousePressed(canvasClick);
         resetGame();
     }
 
@@ -64,23 +87,19 @@ const sketch = p5 => {
             }
         }
 
-        p5.textFont(birdyFont);
-        p5.textSize(50);
-        p5.fill('white');
-        p5.text(score, CANVAS_WIDTH / 2 - 10, 100);
 
         if (gameStart === false) {
-            p5.textSize(40);
-            p5.strokeWeight(0);
-            p5.fill('Black');
-            p5.text('Press Space to fly', 65, 640);
-        }
-        if (gameOver === true) {
-            p5.textSize(40);
-            p5.fill('Black');
-            p5.text('Press Space to reset', 35, 640);
+            gameText.startText();
         }
 
+        if (gameOver) {
+            gameText.gameOverText(score);
+            gameButton.resetButton();
+        }
+        else {
+            gameText.scoreText(score);
+
+        }
     }
 
     p5.keyPressed = (e) => {
@@ -89,6 +108,8 @@ const sketch = p5 => {
                 bird.jump();
             if (gameStart === false)
                 gameStart = true;
+        }
+        if (e.key === 'r') {
             if (gameOver) {
                 resetGame();
             }
