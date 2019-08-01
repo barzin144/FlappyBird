@@ -53,9 +53,17 @@ const sketch = p5 => {
         }
     }
 
+    const canvasTouch = () => {
+        if (gameOver === false)
+            bird.jump();
+        if (gameStart === false)
+            gameStart = true;
+    }
+
     p5.setup = () => {
         var canvas = p5.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         canvas.mousePressed(canvasClick);
+        canvas.touchStarted(canvasTouch);
         resetGame();
     }
 
@@ -115,13 +123,6 @@ const sketch = p5 => {
                 resetGame();
             }
         }
-    }
-
-    p5.touchStarted = () => {
-        if (gameOver === false)
-            bird.jump();
-        if (gameStart === false)
-            gameStart = true;
     }
 }
 
