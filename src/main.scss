@@ -1,9 +1,10 @@
 body {
     font: 100% Helvetica, sans-serif;
-    background-color: #fff;
+    background-color: #272b30;
   }
 
-  #Game{
-    width: 400px;
-    margin: 20px auto 0 auto;
-  }
+.p5Canvas{
+  max-width: 100%;
+  width: auto!important;
+  height: auto!important;
+}
