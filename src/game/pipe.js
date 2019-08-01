@@ -64,7 +64,7 @@ export default class Pipe {
         const birdStartX = bird.birdPosition.x;
         const birdEndX = bird.birdPosition.x + BIRDSIZE.Width;
         const birdStartY = bird.birdPosition.y;
-        const birdEndY = bird.birdPosition.y + BIRDSIZE.Width;
+        const birdEndY = bird.birdPosition.y + BIRDSIZE.Height;
         let crash = false;
 
         this.pipesPosition.forEach(pipe => {
@@ -77,13 +77,13 @@ export default class Pipe {
             const bottomPipeStartY = pipe.height + pipe.gap;
             const bottomPipeEndY = CANVAS_HEIGHT;
 
-            if (((birdStartX >= pipeStartX && birdStartX <= pipeEndX) || (birdEndX >= pipeStartX && birdEndX <= pipeEndX))
+            if (((birdStartX >= pipeStartX && birdStartX < pipeEndX) || (birdEndX >= pipeStartX && birdEndX < pipeEndX))
                 &&
-                ((birdStartY >= topPipeStartY && birdStartY <= topPipeEndY) || (birdEndY >= bottomPipeStartY && birdEndY <= bottomPipeEndY))) {
+                ((birdStartY >= topPipeStartY && birdStartY < topPipeEndY) || (birdEndY >= bottomPipeStartY && birdEndY < bottomPipeEndY))) {
                 crash = true;
             }
 
-            else if (((birdStartX >= pipeStartX && birdStartX <= pipeEndX) || (birdEndX >= pipeStartX && birdEndX <= pipeEndX)) && birdStartY < 0) {
+            else if (((birdStartX >= pipeStartX && birdStartX < pipeEndX) || (birdEndX >= pipeStartX && birdEndX < pipeEndX)) && birdStartY < 0) {
                 crash = true;
             }
         });

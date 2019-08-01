@@ -60,8 +60,8 @@ const sketch = p5 => {
     }
 
     p5.draw = () => {
-        p5.image(background, 0, 0);
-
+        p5.image(background, 0, 0); 
+        
         if (gameStart && gameOver === false) {
             pipe.move();
             pipe.draw();
@@ -73,6 +73,7 @@ const sketch = p5 => {
             floor.draw();
 
             gameOver = pipe.checkCrash(bird) || bird.isDead();
+              
             if (pipe.getScore(bird))
                 score++;
         }

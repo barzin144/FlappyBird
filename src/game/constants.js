@@ -8,6 +8,6 @@ export const PIPE_WIDTH = 100;
 export const MaxPipeOffset = 400;
 export const MinPipeOffset = 300;
 export const PipeSpeed = 2;
-export const BIRDSIZE = { Width: 70, Hieght: 50 };
+export const BIRDSIZE = { Width: 70, Height: 50 };
 export const BIRDANIMATIONFRAME = [200, 272, 344, 416];
 export const FLOOROFFSET = 70;
