@@ -9,6 +9,7 @@ import P5 from 'p5';
 import Images from './assets/sprite.png';
 import BackgroundImage from './assets/background.png';
 import font from './assets/FlappyBirdy.ttf';
+import Storage from './storage';
 
 const sketch = p5 => {
     let background = p5.loadImage(BackgroundImage);
@@ -22,6 +23,8 @@ const sketch = p5 => {
     let gameButton;
     let gameText;
     let score;
+    let storage;
+    let bestScore;
 
     const resetGame = () => {
         gameStart = false;
@@ -31,10 +34,19 @@ const sketch = p5 => {
         floor = new Floor(p5, spriteImage);
         gameText = new Text(p5, birdyFont);
         gameButton = new Button(p5, gameText, spriteImage);
+        storage = new Storage();
         score = 0;
         pipe.generateFirst();
         bird.draw();
         floor.draw();
+        let dataFromStorage = storage.getStorageData();
+        
+        if (dataFromStorage === null) {
+            bestScore = 0;
+        }
+        else {
+            bestScore = dataFromStorage.bestScore;
+        }
     }
 
     const canvasClick = () => {
@@ -102,7 +114,13 @@ const sketch = p5 => {
         }
 
         if (gameOver) {
-            gameText.gameOverText(score);
+            if (score > bestScore) {
+                bestScore = score;
+                storage.setStorageData({ bestScore: score });
+            }
+
+            gameText.gameOverText(score, bestScore);
+
             gameButton.resetButton();
         }
         else {
@@ -112,7 +130,7 @@ const sketch = p5 => {
     }
 
     p5.keyPressed = (e) => {
-        if (e.key === ' ') {  
+        if (e.key === ' ') {
             if (gameOver === false)
                 bird.jump();
             if (gameStart === false)

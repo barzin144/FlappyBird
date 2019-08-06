@@ -22,15 +22,15 @@ export default class GameText {
         this.p5.text('to fly', 0, CANVAS_HEIGHT / 2 + 200, CANVAS_WIDTH);
     }
 
-    gameOverText(score) {
+    gameOverText(score, bestScore) {
         this.p5.textSize(40);
-        this.p5.text('Game Over', 0, CANVAS_HEIGHT / 2-100, CANVAS_WIDTH);
-        this.p5.text('Score: '+ score, 0, CANVAS_HEIGHT / 2, CANVAS_WIDTH);
+        this.p5.text('Game Over', 0, CANVAS_HEIGHT / 2 - 100, CANVAS_WIDTH);
+        this.p5.text('Score: ' + score, 0, CANVAS_HEIGHT / 2, CANVAS_WIDTH);
+        this.p5.text('Best: ' + bestScore, 0, CANVAS_HEIGHT / 2 + 50, CANVAS_WIDTH);
     }
 
-    resetText()
-    {
+    resetText() {
         this.p5.textSize(30);
-        return this.p5.text('Play', 0, CANVAS_HEIGHT / 2+140, CANVAS_WIDTH);
+        return this.p5.text('Play', 0, CANVAS_HEIGHT / 2 + 140, CANVAS_WIDTH);
     }
 }
