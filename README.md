@@ -1,8 +1,9 @@
 # FlappyBird
+
 flappy bird game with javascript and P5.js library
 
-- P5.js 0.9.0 _for make game loop_
-- Webpack 4 _for module bundling_
+- P5.js 1.4.0 _for make game loop_
+- Webpack 5 _for module bundling_
 
 [Live Demo](https://barzin144.github.io/FlappyBird/)
 
