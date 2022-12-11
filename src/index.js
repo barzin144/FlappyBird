@@ -40,7 +40,7 @@ const sketch = p5 => {
         bird.draw();
         floor.draw();
         let dataFromStorage = storage.getStorageData();
-        
+
         if (dataFromStorage === null) {
             bestScore = 0;
         }
@@ -81,9 +81,9 @@ const sketch = p5 => {
 
     p5.draw = () => {
         p5.image(background, 0, 0);
-
+        const level = Math.floor(score / 10);
         if (gameStart && gameOver === false) {
-            pipe.move();
+            pipe.move(level);
             pipe.draw();
 
             bird.update();
@@ -119,12 +119,12 @@ const sketch = p5 => {
                 storage.setStorageData({ bestScore: score });
             }
 
-            gameText.gameOverText(score, bestScore);
+            gameText.gameOverText(score, bestScore, level);
 
             gameButton.resetButton();
         }
         else {
-            gameText.scoreText(score);
+            gameText.scoreText(score, level);
 
         }
     }

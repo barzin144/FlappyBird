@@ -15,13 +15,13 @@ export default class Pipe {
 
     generateNew() {
         const { height, gap } = this.generatePipeHeightAndGap();
-        this.pipesPosition.push({ offset: 0, height, gap });
+        this.pipesPosition.push({ offset: 0, height, gap, passed: false });
         this.draw({ offset: 0, height, gap });
     }
 
     generateFirst() {
         const { height, gap } = this.generatePipeHeightAndGap();
-        this.pipesPosition.push({ offset: -300, height, gap });
+        this.pipesPosition.push({ offset: -300, height, gap, passed: false });
         this.draw({ offset: -300, height, gap });
     }
 
@@ -32,9 +32,9 @@ export default class Pipe {
         });
     }
 
-    move() {
+    move(level) {
         this.pipesPosition.forEach(pipe => {
-            pipe.offset = pipe.offset + PipeSpeed;
+            pipe.offset = pipe.offset + PipeSpeed + level;
         });
 
         if (this.pipesPosition[0].offset > CANVAS_WIDTH + PIPE_WIDTH)
@@ -49,13 +49,13 @@ export default class Pipe {
         const birdMiddleX = bird.birdPosition.x + BIRDSIZE.Width / 2;
         let getScore = false;
         this.pipesPosition.forEach(pipe => {
-            const pipeMiddleX = CANVAS_WIDTH - pipe.offset + PIPE_WIDTH / 2;
-
-            if (birdMiddleX > pipeMiddleX - 2 && birdMiddleX < pipeMiddleX + 2)
-               {
-                    getScore = true;
-                    return getScore;
-               }
+            const pipeStartX = CANVAS_WIDTH - pipe.offset;
+            const pipeEndX = CANVAS_WIDTH - pipe.offset + PIPE_WIDTH;
+            if (birdMiddleX > pipeStartX && birdMiddleX < pipeEndX && pipe.passed === false) {
+                getScore = true;
+                pipe.passed = true;
+                return true;
+            }
         });
         return getScore;
     }
