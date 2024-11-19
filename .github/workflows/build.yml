@@ -1,0 +1,41 @@
+name: build
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Step 2: Set up Node.js environment
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: npm ci
+
+    # Step 4: Build the project
+    - name: Build the project
+      run: npm run build
+
+    # Step 5: Upload the build folder
+    - name: Upload report
+      uses: actions/upload-artifact@v4
+      with:
+          name: page
+          path: ${{ github.workspace }}/dist
+          
+  deploy-report:
+    name: Deploy github pages
+    needs: build
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}.
+    uses: ./.github/workflows/gh-pages.yml
+    secrets: inherit
